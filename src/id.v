@@ -6,17 +6,17 @@ module id (
     input   wire[`RegBus]       reg1_data_i,
     input   wire[`RegBus]       reg2_data_i,
 
-    output reg                  reg1_read_o;
-    output reg                  reg2_read_o;
-    output reg[`RegAddrBus]     reg1_addr_o;
-    output reg[`RegAddrBus]     reg2_addr_o;
+    output  reg                  reg1_read_o;
+    output  reg                  reg2_read_o;
+    output  reg[`RegAddrBus]     reg1_addr_o;
+    output  reg[`RegAddrBus]     reg2_addr_o;
 
-    output reg[`AluOpBus]       aluop_o,
-    output reg[`AluSelBus]      alusel_o,
-    output reg[`RegBus]         reg1_o,
-    output reg[`RegBus]         reg2_o,
-    output reg[`RegAddrBus]     wd_o,
-    output reg                  wreg_o
+    output  reg[`AluOpBus]       aluop_o,
+    output  reg[`AluSelBus]      alusel_o,
+    output  reg[`RegBus]         reg1_o,
+    output  reg[`RegBus]         reg2_o,
+    output  reg[`RegAddrBus]     wd_o,
+    output  reg                  wreg_o
 
 );
 
@@ -44,10 +44,73 @@ module id (
 //==================== decode ====================
     always @ ( * ) begin
         if (rst == `RstData) begin
-
+            aluop_o         <=  `EXE_NOP_OP;
+            alusel_o        <=  `EXE_RES_NOP;
+            wd_o            <=  `NOPRegAddr;
+            wreg_o          <=  `WriteDisable;
+            instValid       <=  `InstValid;
+            reg1_read_o     <=  1'b0;
+            reg2_read_o     <=  1'b0;
+            reg1_addr_o     <=  `NOPRegAddr;
+            reg2_addr_o     <=  `NOPRegAddr;
+            imm             <=  `ZeroWord;
         end else begin
+            aluop_o         <=  `EXE_NOP_OP;
+            alusel_o        <=  `EXE_RES_NOP;
+            wd_o            <=  rd_addr;
+            wreg_o          <=  `WriteDisable;
+            instValid       <=  `InstInvalid;
+            reg1_read_o     <=  1'b0;
+            reg2_read_o     <=  1'b0;
+            reg1_addr_o     <=  rs1_addr;
+            reg2_addr_o     <=  rs2_addr;
+            imm             <=  `ZeroWord;
 
+            case (opcode)
+                `OPCODE_OP_IMM : begin
+                    wreg_o      <=  `WriteEnable;
+                    reg1_read_o <=  1'b1;
+                    instvalid   <=  `InstValid;
+                    case (funct3)
+                        `FUNCT3_ORI : begin
+                            aluop_o     <= `EXE_OR_OP;
+                            alusel_o    <= `EXE_RES_LOGIC;
+                            imm         <= i_type_imm;
+                        end
+                        default: begin
+                        end
+                    endcase
+                end
+                default : begin
+                end
+            endcase
         end
     end
 
+//==================== rsrc1 ====================
+    always @ ( * ) begin
+        if (rst == `RstEnable) begin
+            reg1_o  <=  `ZeroWord;
+        end else if (reg1_read_o == 1'b1) begin
+            reg1_o  <=  reg1_data_i;
+        end else if (reg1_read_o == 1'b0) begin
+            reg1_o  <=  imm;
+        end else begin
+            reg1_o  <=  `ZeroWord;
+        end
+    end
+
+
+//==================== rsrc2 ====================
+    always @ ( * ) begin
+        if (rst == `RstEnable) begin
+            reg2_o  <=  `ZeroWord;
+        end else if (reg2_read_o = 1'b1) begin
+            reg2_o  <=  reg2_data_i;
+        end else if (reg2_read_o = 1'b0) begin
+            reg2_o  <=  imm;
+        end else begin
+            reg2_o  <=  `ZeroWord;
+        end
+    end
 endmodule
