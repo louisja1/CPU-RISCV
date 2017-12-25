@@ -1,4 +1,4 @@
-module openmips (
+module riscv (
 
     input   wire            clk,
     input   wire            rst,
