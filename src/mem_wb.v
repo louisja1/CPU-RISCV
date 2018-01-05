@@ -24,5 +24,5 @@ module mem_wb (
             wb_wdata <= mem_wdata;
         end
     end
-    
+
 endmodule

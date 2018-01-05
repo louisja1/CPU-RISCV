@@ -6,8 +6,9 @@ module ex (
     input   wire[`RegBus]       reg1_i,
     input   wire[`RegBus]       reg2_i,
     input   wire[`RegAddrBus]   wd_i,
+    input   wire                wreg_i,
 
-    output  wire[`RegAddrBus]   wd_o,
+    output  reg[`RegAddrBus]    wd_o,
     output  reg                 wreg_o,
     output  reg[`RegBus]        wdata_o
 
@@ -36,7 +37,7 @@ module ex (
     always @ ( * ) begin
         wd_o <= wd_i;
         wreg_o <= wreg_i;
-        case (alusel_o)
+        case (alusel_i)
             `EXE_RES_LOGIC: begin
                 wdata_o <= logicout;
             end

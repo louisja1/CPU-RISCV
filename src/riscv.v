@@ -18,8 +18,10 @@ module riscv (
     wire[`AluSelBus]        id_alusel_o;
     wire[`RegBus]           id_reg1_o;
     wire[`RegBus]           id_reg2_o;
+    wire                    id_wreg_o;
+    wire[`RegAddrBus]       id_wd_o;
 //==================== ID/EX & EX ====================
-    wire[`AluOpBus]         ex_aluop_i
+    wire[`AluOpBus]         ex_aluop_i;
     wire[`AluSelBus]        ex_alusel_i;
     wire[`RegBus]           ex_reg1_i;
     wire[`RegBus]           ex_reg2_i;
@@ -30,7 +32,7 @@ module riscv (
     wire[`RegAddrBus]       ex_wd_o;
     wire[`RegBus]           ex_wdata_o;
 //==================== EX/MEM & MEM ====================
-    wire name;              mem_wreg_i;
+    wire                    mem_wreg_i;
     wire[`RegAddrBus]       mem_wd_i;
     wire[`RegBus]           mem_wdata_i;
 //==================== MEM & MEM/WB ====================
@@ -126,7 +128,7 @@ module riscv (
         .wreg_i(ex_wreg_i),
         .wd_o(ex_wd_o),
         .wreg_o(ex_wreg_o),
-        .wdata(ex_wdata_o)
+        .wdata_o(ex_wdata_o)
     );
 
     ex_mem ex_mem0 (
@@ -140,14 +142,14 @@ module riscv (
         .mem_wdata(mem_wdata_i)
     );
 
-    mem mem0 (
+    mem mem1 (
         .rst(rst),
         .wd_i(mem_wd_i),
         .wreg_i(mem_wreg_i),
         .wdata_i(mem_wdata_i),
         .wd_o(mem_wd_o),
         .wreg_o(mem_wreg_o),
-        .wdata_o(mem_wdta_o)
+        .wdata_o(mem_wdata_o)
     );
 
     mem_wb mem_wb0 (

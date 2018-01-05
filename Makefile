@@ -8,15 +8,14 @@ CPU = 	$(SRC)/defines.v \
 		$(SRC)/id_ex.v \
 		$(SRC)/ex.v \
 		$(SRC)/mem_wb.v \
+		$(SRC)/mem.v \
 		$(SRC)/riscv.v \
 		$(SRC)/inst_rom.v \
 		$(SRC)/riscv_min_sopc.v \
-		$(SRC)/riscv_min_sopc_tb.v \
+		$(SRC)/riscv_min_sopc_tb.v
 
-cpu-riscv : $(CPU)
-	iverilog -o cpu-riscv.vvp $(CPU)
-
-
+all : $(CPU)
+	iverilog -o cpu-riscv.vvp $(CPU) && vvp cpu-riscv.vvp
 
 clean :
-	rm cpu-riscv
+	rm cpu-riscv.vvp

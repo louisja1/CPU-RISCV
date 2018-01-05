@@ -13,7 +13,7 @@ module pc_reg (
     end
 
     always @ ( posedge  clk ) begin
-        if (ce == 'ChipDisable) begin
+        if (ce == `ChipDisable) begin
             pc <= 32'h00000000;
         end else begin
             pc <= pc + 4'h4;
