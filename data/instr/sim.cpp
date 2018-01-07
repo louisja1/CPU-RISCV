@@ -1,4 +1,9 @@
-#include<bits/stdc++.h>
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+#include <iostream>
+#include <map>
+#include <vector>
 using namespace std;
 
 string str(int x,int len){
@@ -73,7 +78,7 @@ int main(){
 		if(instr=="sw"){
 			cin>>rs2>>rs1>>imm;
 		}
-	
+
 		if(CMD_TYPE[instr]=='I'){
 			cin>>rd>>rs1>>imm;
 		}
@@ -138,7 +143,7 @@ int main(){
 		fprintf(stderr,"reg[%d]=%x\n",i,reg[i]);
 	for(int i=0;i<8;i++)
 		fprintf(stderr,"mem[%d]=%x\n",i,mem[i]);
-	cerr<<endl;	
+	cerr<<endl;
 
 	}
 
@@ -146,7 +151,7 @@ int main(){
 		fprintf(stderr,"reg[%d]=%x\n",i,reg[i]);
 	for(int i=0;i<8;i++)
 		fprintf(stderr,"mem[%d]=%x\n",i,mem[i]);
-	
+
 
 	cerr<<"./trans plz"<<endl;
 	return 0;

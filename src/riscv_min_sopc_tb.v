@@ -13,8 +13,10 @@ module riscv_min_sooc_tb ();
 
     initial begin
         rst = `RstEnable;
+        $dumpfile("cpu-riscv.vcd");
+        $dumpvars(0);
         #195 rst = `RstDisable;
-        #1000 $finish;
+        #1200 $finish;
 
     end
 

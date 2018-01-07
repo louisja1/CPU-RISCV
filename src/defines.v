@@ -6,14 +6,25 @@
 `define WriteDisable    1'b0
 `define ReadEnable      1'b1
 `define ReadDisable     1'b0
-`define AluOpBus        7:0
-`define AluSelBus       2:0
+`define AluOpBus        7 : 0
+`define AluSelBus       2 : 0
 `define InstValid       1'b0
 `define InstInvalid     1'b1
 `define True_v          1'b1
 `define False_v         1'b0
 `define ChipEnable      1'b1
 `define ChipDisable     1'b0
+`define Stop            1'b1
+`define NoStop          1'b0
+`define Branch          1'b1
+`define NotBranch       1'b0
+`define InDelaySlot     1'b1
+`define NotInDelaySlot  1'b0
+`define Selected        1'b1
+`define REG_READ        2'b00
+`define REG_IMM         2'b01
+`define REG_PC          2'b10
+`define REG_ZERO        2'b11
 
 //==================== OPCODE ====================
 `define OPCODE_LUI          7'b0110111
@@ -42,7 +53,7 @@
 `define FUNCT3_LH       3'b001
 `define FUNCT3_LW       3'b010
 `define FUNCT3_LBU      3'b100
-`define FUCNT3_LHU      3'b101
+`define FUNCT3_LHU      3'b101
 //STORE
 `define FUNCT3_SB       3'b000
 `define FUNCT3_SH       3'b001
@@ -88,18 +99,51 @@
 `define FUNCT7_AND      7'b0000000
 
 //==================== ALUOP ====================
-`define EXE_OR_OP       8'b00100101
-`define EXE_NOP_OP      8'b00000000
+`define EXE_NOP_OP      5'd0
+`define EXE_AND_OP      5'd1
+`define EXE_OR_OP       5'd2
+`define EXE_XOR_OP      5'd3
+`define EXE_ADDI_OP     5'd4
+`define EXE_SLTI_OP     5'd5
+`define EXE_SLTIU_OP    5'd6
+`define EXE_SLL_OP      5'd7
+`define EXE_SRL_OP      5'd8
+`define EXE_SRA_OP      5'd9
+`define EXE_SLT_OP      5'd10
+`define EXE_SLTU_OP     5'd11
+`define EXE_ADD_OP      5'd12
+`define EXE_SUB_OP      5'd13
+`define EXE_JAL_OP      5'd14
+`define EXE_JALR_OP     5'd15
+`define EXE_BEQ_OP      5'd16
+`define EXE_BNE_OP      5'd17
+`define EXE_BLT_OP      5'd18
+`define EXE_BLTU_OP     5'd19
+`define EXE_BGE_OP      5'd20
+`define EXE_BGEU_OP     5'd21
+`define EXE_LW_OP       5'd22
+`define EXE_LH_OP       5'd23
+`define EXE_LB_OP       5'd24
+`define EXE_LBU_OP      5'd25
+`define EXE_LHU_OP      5'd26
+`define EXE_SB_OP       5'd27
+`define EXE_SH_OP       5'd28
+`define EXE_SW_OP       5'd29
+
 
 //==================== ALUSEL ====================
-`define EXE_RES_LOGIC   3'b001
+`define EXE_RES_LOGIC       3'b001
+`define EXE_RES_SHIFT       3'b010
+`define EXE_RES_ARITHMETIC  3'b100
+`define EXE_RES_JUMP_BRANCH 3'b110
+`define EXE_RES_LOAD_STORE  3'b111
 
-`define EXE_RES_NOP     3'b000
+`define EXE_RES_NOP         3'b000
 
 //==================== ROM ====================
 `define InstAddrBus     31 : 0
 `define InstBus         31 : 0
-`define InstMemNum      100
+`define InstMemNum      1000
 `define InstMemNumLog2  17
 
 //==================== REGFILE ====================
@@ -111,3 +155,8 @@
 `define RegNum          32
 `define RegNumLog2      5
 `define NOPRegAddr      5'b00000
+`define DataAddrBus     31 : 0
+`define DataBus         31 : 0
+`define DataMemNum      1000
+`define DataMemNumLog2  17
+`define ByteWidth       7 : 0

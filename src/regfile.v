@@ -6,11 +6,11 @@ module regfile (
     input   wire[`RegAddrBus]   waddr,
     input   wire[`RegBus]       wdata,
 
-    input   wire                re1,
+    input   wire[1 : 0]         re1,
     input   wire[`RegAddrBus]   raddr1,
     output  reg[`RegBus]        rdata1,
 
-    input   wire                re2,
+    input   wire[1 : 0]         re2,
     input   wire[`RegAddrBus]   raddr2,
     output  reg[`RegBus]        rdata2
 
@@ -24,7 +24,7 @@ integer i;
         if (rst == `RstDisable) begin
             if ((we == `WriteEnable) && (waddr != `RegNumLog2'h0)) begin
                 regs[waddr] <= wdata;
-                $display("regfile : regs[%d] <= %d", waddr, wdata);
+                $display("regfile : regs[%d] <= %h", waddr, wdata);
             end
         end
     end
@@ -36,9 +36,9 @@ integer i;
             rdata1 <= `ZeroWord;
         end else if (raddr1 == `RegNumLog2'h0) begin
             rdata1 <= `ZeroWord;
-        end else if ((raddr1 == waddr) && (we == `WriteEnable) && (re1 == `ReadEnable)) begin
+        end else if ((raddr1 == waddr) && (we == `WriteEnable) && (re1 == `REG_READ)) begin
             rdata1 <= wdata;
-        end else if (re1 == `ReadEnable) begin
+        end else if (re1 == `REG_READ) begin
             rdata1 <= regs[raddr1];
         end else begin
             rdata1 <= `ZeroWord;
@@ -52,9 +52,9 @@ integer i;
             rdata2 <= `ZeroWord;
         end else if (raddr2 == `RegNumLog2'h0) begin
             rdata2 <= `ZeroWord;
-        end else if ((raddr2 == waddr) && (we == `WriteEnable) && (re2 == `ReadEnable)) begin
+        end else if ((raddr2 == waddr) && (we == `WriteEnable) && (re2 == `REG_READ)) begin
             rdata2 <= wdata;
-        end else if (re2 == `ReadEnable) begin
+        end else if (re2 == `REG_READ) begin
             rdata2 <= regs[raddr2];
         end else begin
             rdata2 <= `ZeroWord;

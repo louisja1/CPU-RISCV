@@ -7,6 +7,8 @@ module mem_wb (
     input   wire                mem_wreg,
     input   wire[`RegBus]       mem_wdata,
 
+    input   wire[5 : 0]         stall,
+
     output  reg[`RegAddrBus]    wb_wd,
     output  reg                 wb_wreg,
     output  reg[`RegBus]        wb_wdata
@@ -14,11 +16,16 @@ module mem_wb (
 );
 
     always @ ( posedge clk ) begin
+        //$display("mem_wb : data = %h addr = %d", mem_wdata, mem_wd);
         if (rst == `RstEnable) begin
             wb_wd <= `NOPRegAddr;
             wb_wreg <= `WriteDisable;
             wb_wdata <= `ZeroWord;
-        end else begin
+        end else if (stall[4] == `Stop && stall[5] == `NoStop) begin
+            wb_wd <= `NOPRegAddr;
+            wb_wreg <= `WriteDisable;
+            wb_wdata <= `ZeroWord;
+        end else if (stall[4] == `NoStop) begin
             wb_wd <= mem_wd;
             wb_wreg <= mem_wreg;
             wb_wdata <= mem_wdata;
