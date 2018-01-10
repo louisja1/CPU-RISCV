@@ -18,6 +18,7 @@ module riscv_min_sopc (
     riscv riscv0 (
         .clk(clk),
         .rst(rst),
+
         .rom_addr_o(inst_addr),
         .rom_data_i(inst),
         .rom_ce_o(rom_ce),
@@ -31,20 +32,19 @@ module riscv_min_sopc (
         .ram_ce_o(mem_ce_i)
     );
 
-    inst_rom inst_rom0 (
-        .ce(rom_ce),
-        .addr(inst_addr),
-        .inst(inst)
-    );
-
-    data_ram data_ram0 (
+    inst_rom_data_ram inst_rom_data_ram0 (
         .clk(clk),
-        .we(mem_we_i),
-        .addr(mem_addr_i),
-        .sel(mem_sel_i),
-        .data_i(mem_data_i),
-        .data_o(mem_data_o),
-        .ce(mem_ce_i)
+
+        .rom_ce(rom_ce),
+        .rom_addr(inst_addr),
+        .rom_inst(inst),
+
+        .ram_we(mem_we_i),
+        .ram_addr(mem_addr_i),
+        .ram_sel(mem_sel_i),
+        .ram_data_i(mem_data_i),
+        .ram_data_o(mem_data_o),
+        .ram_ce(mem_ce_i)
     );
 
 endmodule

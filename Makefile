@@ -10,11 +10,10 @@ CPU = 	$(SRC)/defines.v \
 		$(SRC)/mem_wb.v \
 		$(SRC)/mem.v \
 		$(SRC)/riscv.v \
-		$(SRC)/inst_rom.v \
 		$(SRC)/riscv_min_sopc.v \
 		$(SRC)/riscv_min_sopc_tb.v\
 		$(SRC)/ctrl.v \
-		$(SRC)/data_ram.v
+		$(SRC)/inst_rom_data_ram.v
 
 all : $(CPU)
 	riscv32-unknown-elf-as -o inst_rom.o -march=rv32i inst_rom.s && \

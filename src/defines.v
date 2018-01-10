@@ -143,7 +143,7 @@
 //==================== ROM ====================
 `define InstAddrBus     31 : 0
 `define InstBus         31 : 0
-`define InstMemNum      1000
+`define InstMemNum      4096
 `define InstMemNumLog2  17
 
 //==================== REGFILE ====================
@@ -157,6 +157,6 @@
 `define NOPRegAddr      5'b00000
 `define DataAddrBus     31 : 0
 `define DataBus         31 : 0
-`define DataMemNum      1000
+`define DataMemNum      4096
 `define DataMemNumLog2  17
 `define ByteWidth       7 : 0
